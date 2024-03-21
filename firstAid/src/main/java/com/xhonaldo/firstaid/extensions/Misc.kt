@@ -1,10 +1,16 @@
 package com.xhonaldo.firstaid.extensions
 
 import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import java.io.ByteArrayOutputStream
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.Date
 
 /**
  * Executes a block of code if the list is not empty.
@@ -35,9 +41,37 @@ fun Bitmap.toByteArray(quality: Int = 95): ByteArray {
 }
 
 /**
- * Observes a LiveData from a LifecycleOwner and performs an action when it changes.
- * @param liveData The LiveData to observe.
- * @param body The action to perform when the LiveData changes.
+ * Checks whether the collection is not empty.
+ *
+ * @return true if the collection is not null and not empty, false otherwise.
  */
-fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T?) -> Unit) =
-    liveData.observe(this, Observer(body))
+fun <T> Collection<T>?.notEmpty(): Boolean {
+    return !this.isNullOrEmpty()
+}
+
+/**
+ * Returns the value corresponding to the given [key], or throws a [NoSuchElementException]
+ * if the key is not found in the map.
+ * @param key the key to search for in the map
+ * @return the value associated with the key
+ * @throws NoSuchElementException if the key is not found in the map
+ */
+fun <K, V> Map<K, V>.getOrThrow(key: K): V {
+    return this[key] ?: throw NoSuchElementException("Key $key not found in map")
+}
+
+/**
+ * Formats the integer into a string using the default number format.
+ * @return the formatted string representing the integer
+ */
+fun Int.toFormattedString(): String {
+    return NumberFormat.getInstance().format(this)
+}
+
+/**
+ * Formats the long integer into a string using the default number format.
+ * @return the formatted string representing the long integer
+ */
+fun Long.toFormattedString(): String {
+    return NumberFormat.getInstance().format(this)
+}

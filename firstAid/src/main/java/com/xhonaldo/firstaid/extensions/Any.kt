@@ -44,3 +44,13 @@ inline fun <T> T.applyIf(condition: Boolean, block: T.() -> Unit): T {
         this
     }
 }
+
+/**
+ * Executes the specified [block] if this object is not null, returning its result,
+ * otherwise returns null.
+ * @param block the function to execute if this object is not null
+ * @return the result of [block] execution or null if this object is null
+ */
+inline fun <T : Any, R> T?.withNotNull(block: (T) -> R): R? {
+    return this?.let(block)
+}

@@ -3,6 +3,7 @@ package com.xhonaldo.firstaid.extensions
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.text.Editable
 import android.util.Base64
 import android.util.Patterns
 import android.webkit.URLUtil
@@ -90,3 +91,20 @@ fun String.toDate(withFormat: String = "yyyy/MM/dd hh:mm"): Date {
     val dateFormat = SimpleDateFormat(withFormat)
     return dateFormat.parse(this) ?: Date()
 }
+
+/**
+ * Removes all whitespaces from the string.
+ * @return the string without any whitespaces
+ */
+fun String.removeAllWhitespaces(): String {
+    return this.replace("\\s+".toRegex(), "")
+}
+
+/**
+ * Removes duplicate whitespaces from the string.
+ * @return the string with duplicate whitespaces replaced by a single whitespace
+ */
+fun String.removeDuplicateWhitespaces(): String {
+    return this.replace("\\s+".toRegex(), " ")
+}
+

@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Handler
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -145,6 +147,15 @@ fun EditText.isEmpty(error: String = ""): Boolean {
 }
 
 /**
+ * Gets the value of the EditText as a string.
+ * If the EditText's text is not null, returns its string representation,
+ * otherwise, returns an empty string.
+ * @return the value of the EditText as a string
+ */
+val EditText.value
+    get() = text?.toString() ?: ""
+
+/**
  * Checks if all EditText fields in a list are empty.
  * @return True if any of the EditText fields are empty, false otherwise.
  */
@@ -175,4 +186,24 @@ fun <T> RecyclerView.autoScroll(delayMillis: Long = 4000, scrollBy: Int = 1, lis
         }
         handler.postDelayed(runnable, delayMillis)
     }
+}
+
+/**
+ * Converts a Drawable to a Bitmap.
+ * If the Drawable is a BitmapDrawable, returns the underlying Bitmap.
+ * Otherwise, draws the Drawable onto a new Bitmap and returns it.
+ *
+ * @return the Bitmap representation of the Drawable
+ */
+fun Drawable.toBitmap(): Bitmap {
+    // If the Drawable is a BitmapDrawable, return the underlying Bitmap
+    if (this is BitmapDrawable) return bitmap
+
+    // Otherwise, create a new Bitmap and draw the Drawable onto it
+    val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    setBounds(0, 0, canvas.width, canvas.height)
+    draw(canvas)
+
+    return bitmap
 }

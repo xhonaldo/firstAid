@@ -1,8 +1,10 @@
 package com.xhonaldo.firstaid.extensions
 
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 
 /**
  * Creates a MutableLiveData instance with an optional initial value.
@@ -76,16 +78,22 @@ fun <A, B, Result> LiveData<A>.combineLatest(
 ): LiveData<Result> {
     val mediator = MediatorLiveData<Result>()
     mediator.addSource(this) { a ->
-        val b = other.value
-        if (b != null) {
-            mediator.value = combiner(a, b)
+        other.value.ifNotNull {
+            mediator.value = combiner(a, it)
         }
     }
     mediator.addSource(other) { b ->
-        val a = this@combineLatest.value
-        if (a != null) {
-            mediator.value = combiner(a, b)
+        this@combineLatest.value.ifNotNull {
+            mediator.value = combiner(it, b)
         }
     }
     return mediator
 }
+
+/**
+ * Observes a LiveData from a LifecycleOwner and performs an action when it changes.
+ * @param liveData The LiveData to observe.
+ * @param body The action to perform when the LiveData changes.
+ */
+fun <T : Any, L : LiveData<T>> LifecycleOwner.observe(liveData: L, body: (T?) -> Unit) =
+    liveData.observe(this, Observer(body))

@@ -2,16 +2,24 @@ package com.xhonaldo.firstaid.extensions
 
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.DownloadManager
+import android.app.NotificationManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.*
+import android.graphics.Insets
+import android.graphics.Rect
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.util.DisplayMetrics
+import android.util.Size
+import android.view.WindowInsets
+import android.view.WindowManager
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.appcompat.content.res.AppCompatResources
@@ -181,3 +189,71 @@ val Context.versionCode: Long get() {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) pInfo.longVersionCode
     else pInfo.versionCode.toLong()
 }
+
+/**
+ * Provides access to the WindowManager service.
+ *
+ * @return WindowManager instance
+ */
+val Context.windowManager
+    get() = ContextCompat.getSystemService(this, WindowManager::class.java)
+
+/**
+ * Provides access to the ConnectivityManager service.
+ *
+ * @return ConnectivityManager instance
+ */
+val Context.connectivityManager
+    get() = ContextCompat.getSystemService(this, ConnectivityManager::class.java)
+
+/**
+ * Provides access to the NotificationManager service.
+ *
+ * @return NotificationManager instance
+ */
+val Context.notificationManager
+    get() = ContextCompat.getSystemService(this, NotificationManager::class.java)
+
+/**
+ * Provides access to the DownloadManager service.
+ *
+ * @return DownloadManager instance
+ */
+val Context.downloadManager
+    get() = ContextCompat.getSystemService(this, DownloadManager::class.java)
+
+/**
+ * Retrieves the screen size of the device.
+ * For API level 30 (Android R) and above, it takes into account system insets.
+ * For lower API levels, it retrieves the screen size directly from DisplayMetrics.
+ *
+ * @return Size object representing the screen size
+ */
+val Context.screenSize: Size
+    get() {
+        val windowManager = getSystemService(Context.WINDOW_SERVICE) as WindowManager
+
+        val size = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val metrics = windowManager.currentWindowMetrics
+            val windowInsets = metrics.windowInsets
+            val insets: Insets = windowInsets.getInsetsIgnoringVisibility(
+                WindowInsets.Type.navigationBars()
+                        or WindowInsets.Type.displayCutout()
+            )
+
+            val insetsWidth: Int = insets.right + insets.left
+            val insetsHeight: Int = insets.top + insets.bottom
+            val bounds: Rect = metrics.bounds
+            Size(
+                bounds.width() - insetsWidth,
+                bounds.height() - insetsHeight
+            )
+        } else {
+            val displayMetrics = DisplayMetrics()
+            windowManager.defaultDisplay?.getMetrics(displayMetrics)
+            val height = displayMetrics.heightPixels
+            val width = displayMetrics.widthPixels
+            Size(width, height)
+        }
+        return size
+    }

@@ -210,3 +210,11 @@ fun LocalDate.monthsDifference(other: LocalDate): Long {
 fun LocalDate.daysDifference(other: LocalDate): Long {
     return ChronoUnit.DAYS.between(this, other).absoluteValue
 }
+
+/**
+ * Formats the date into a string using the default date format.
+ * @return the formatted string representing the date
+ */
+fun Date.toFormattedString(): String {
+    return SimpleDateFormat.getDateInstance().format(this)
+}
