@@ -18,7 +18,7 @@ fun String.Companion.empty() = ""
  * Validates if the string is a valid email address.
  * @return true if the string is a valid email address, false otherwise.
  */
-fun String.isValidEmail(): Boolean= this.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+fun String.isValidEmail(): Boolean = this.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
 /**
  * Validates if the string is a valid URL.
@@ -28,7 +28,7 @@ fun String.isUrl(): Boolean {
     return URLUtil.isValidUrl(this)
 }
 
-/**
+/**p
  * Validates if the string is a valid phone number.
  * @return true if the string is a valid phone number, false otherwise.
  */
