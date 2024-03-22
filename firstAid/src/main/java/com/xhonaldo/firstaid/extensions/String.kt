@@ -3,7 +3,6 @@ package com.xhonaldo.firstaid.extensions
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.text.Editable
 import android.util.Base64
 import android.util.Patterns
 import android.webkit.URLUtil
@@ -17,37 +16,36 @@ fun String.Companion.empty() = ""
 
 /**
  * Validates if the string is a valid email address.
+ * @param regex
  * @return true if the string is a valid email address, false otherwise.
  */
-fun String.isValidEmail(): Boolean = this.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+fun String.isValidEmail(regex: Regex): Boolean = this.isNotEmpty() && regex.matches(this)
 
 /**
  * Validates if the string is a valid URL.
  * @return true if the string is a valid URL, false otherwise.
  */
-fun String.isUrl(): Boolean {
-    return URLUtil.isValidUrl(this)
-}
+fun String.isUrl() = isNotEmpty() && URLUtil.isValidUrl(this)
+
 
 /**p
  * Validates if the string is a valid phone number.
+ * @param regex
  * @return true if the string is a valid phone number, false otherwise.
  */
-fun String.isPhoneNumber(): Boolean {
-    return Patterns.PHONE.matcher(this).matches()
-}
+fun String.isPhoneNumber(regex: Regex) = isNotEmpty() && regex.matches(this)
 
 /**
  * Checks if the string contains a digit.
  * @return true if the string contains a digit, false otherwise.
  */
-val String.containsDigit: Boolean get() = matches(Regex(".*[0-9].*"))
+val String.containsDigit: Boolean get() = isNotEmpty() && matches(Regex(".*[0-9].*"))
 
 /**
  * Checks if the string is alphanumeric.
  * @return true if the string is alphanumeric, false otherwise.
  */
-val String.isAlphanumeric: Boolean get() = matches(Regex("[a-zA-Z0-9]*"))
+val String.isAlphanumeric: Boolean get() = isNotEmpty() && matches(Regex("[a-zA-Z0-9]*"))
 
 /**
  * Converts a Base64 encoded string to a Bitmap.

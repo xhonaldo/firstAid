@@ -75,3 +75,53 @@ fun Int.toFormattedString(): String {
 fun Long.toFormattedString(): String {
     return NumberFormat.getInstance().format(this)
 }
+
+/**
+ * Extension function to refresh the ArrayList with new items
+ * @param items List of items to replace the current contents of the ArrayList
+ * @return The modified ArrayList with new items
+ */
+fun <T:Any> ArrayList<T>.refreshList(items: List<T>): ArrayList<T> {
+    // Clear the current list
+    this.clear()
+    // Add all items from the new list
+    this.addAll(items)
+    // Return the modified ArrayList
+    return this
+}
+
+/**
+ * Extension function to add only new items to the ArrayList
+ * @param items List of items to add to the ArrayList if they do not already exist
+ * @return The modified ArrayList with new items added
+ */
+fun <T:Any> ArrayList<T>.addOnlyNewItems(items: List<T>): ArrayList<T> {
+    // Iterate through the items
+    items.forEach {
+        // Check if the item is not already in the list
+        if (!this.contains(it)) {
+            // If not, add it to the list
+            this.add(it)
+        }
+    }
+    // Return the modified ArrayList
+    return this
+}
+
+/**
+ * Checks if the collection contains any of the elements in the specified [elements].
+ * @param elements The elements to check for in the collection.
+ * @return true if the collection contains any of the elements, false otherwise.
+ */
+fun <T> Collection<T>.containsAny(vararg elements: T): Boolean {
+    return this.intersect(elements.asIterable().toSet()).isNotEmpty()
+}
+
+/**
+ * Checks if the array contains any of the elements in the specified [elements].
+ * @param elements The elements to check for in the array.
+ * @return true if the array contains any of the elements, false otherwise.
+ */
+fun <T> Array<T>.containsAny(vararg elements: T): Boolean {
+    return this.intersect(elements.asIterable().toSet()).isNotEmpty()
+}
