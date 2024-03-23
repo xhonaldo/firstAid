@@ -97,7 +97,6 @@ class MiscUnitTest {
     @Test
     fun testContainsAnyForArray() {
         val array = arrayOf(1, 2, 3, 4, 5)
-
         assertTrue(array.containsAny(2, 5))
         assertTrue(array.containsAny(4, 6))
         assertFalse(array.containsAny(6, 7, 8))

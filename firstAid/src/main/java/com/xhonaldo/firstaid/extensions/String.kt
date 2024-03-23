@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.util.Base64
-import android.util.Patterns
 import android.webkit.URLUtil
 import java.text.SimpleDateFormat
 import java.util.Date

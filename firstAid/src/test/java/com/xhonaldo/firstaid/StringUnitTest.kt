@@ -30,10 +30,9 @@ class StringUnitTest {
         assertFalse("bdss".isValidEmail(regex))
     }
 
-
     @Test
     fun testIsUrl() {
-        assertTrue("https://www.example.com".isUrl())
+        assertTrue("https://www.google.com".isUrl())
         assertFalse("invalid-url".isUrl())
     }
 
@@ -83,9 +82,9 @@ class StringUnitTest {
 
     @Test
     fun testToDate() {
-        val dateStr = "2024/03/22 12:00"
+        val dateStr = "2024/03/22 00:00:00"
         val expectedDate = Calendar.getInstance().apply {
-            set(2024, Calendar.MARCH, 22, 12, 0)
+            set(2024, 2, 22, 0, 0, 0)
         }.time
         assertEquals(expectedDate, dateStr.toDate())
     }

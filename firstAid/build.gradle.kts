@@ -41,12 +41,6 @@ dependencies {
     implementation("androidx.test:core-ktx:1.5.0")
 
     testImplementation("junit:junit:4.13.2")
-    testImplementation("org.mockito:mockito-core:5.11.0")
-    // Optional -- mockito-kotlin
-    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
-    // Optional -- Mockk framework
-    testImplementation ("io.mockk:mockk:1.13.10")
-    runtimeOnly("org.mockito:mockito-android:5.11.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 }
